@@ -1,0 +1,28 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+
+# Vite
+apps/web/dist/
+apps/web/.vite/
+
+# Wrangler / Cloudflare Workers
+apps/worker/.wrangler/
+apps/worker/dist/
+.dev.vars
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Local Claude Code settings
+.claude/
+
+# Saved chat transcripts
+apps/web/claude conv
