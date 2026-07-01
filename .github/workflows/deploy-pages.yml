@@ -13,13 +13,25 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  checks: read
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
+  wait-for-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lewagon/wait-on-check-action@v1.8.0
+        with:
+          ref: ${{ github.sha }}
+          check-name: lint-typecheck-build
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
   build:
+    needs: wait-for-ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -38,7 +50,12 @@ jobs:
           # "/<repo-name>/" for project pages served from a subpath.
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_API_BASE_URL: ${{ vars.WORKER_API_URL }}
-        run: pnpm build:web
+        run: |
+          if [ -z "$VITE_API_BASE_URL" ]; then
+            echo "::error::VITE_API_BASE_URL is empty — set the 'WORKER_API_URL' repository variable (Settings → Secrets and variables → Actions → Variables)."
+            exit 1
+          fi
+          pnpm build:web
 
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -53,3 +70,11 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Smoke test
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}")
+          if [ "$status" != "200" ]; then
+            echo "::error::Pages smoke test failed — got HTTP $status from ${{ steps.deployment.outputs.page_url }}"
+            exit 1
+          fi
