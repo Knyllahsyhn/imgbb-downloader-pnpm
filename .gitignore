@@ -20,3 +20,4 @@ apps/worker/dist/
 .vscode/*
 !.vscode/extensions.json
 .idea/
+.editorconfig
