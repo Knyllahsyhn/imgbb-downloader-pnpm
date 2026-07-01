@@ -1,4 +1,9 @@
+
+
 # imgbb Album Downloader
+[![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml)
+[![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml)
+[![Cloudflare worker deployment](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml)
 
 Downloads entire [imgbb](https://imgbb.com) (`ibb.co`) albums as a ZIP — with
 a preview grid, per-image selection, and a UI that doesn't look like it's
