@@ -20,9 +20,3 @@ apps/worker/dist/
 .vscode/*
 !.vscode/extensions.json
 .idea/
-
-# Local Claude Code settings
-.claude/
-
-# Saved chat transcripts
-apps/web/claude conv
