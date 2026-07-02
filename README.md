@@ -32,7 +32,14 @@ Thus the two.part architecture:
   bytes through itself.
 
 ## Isn't this overkill for just downloading a few files? 
-Possibly. But I'm trying to get a bit more experience with web-based stuff and this was a great learning experience. I thought I'd just run it locally somewhere but since there's only really one project online that hasn't been updated in quite a while, i thought I'd make it public. It certainly inspired me to build this, actually version it instead of just keeping a fun little project dormant on my disk and to put it on GH pages.  
+Possibly. But I'm trying to get a bit more experience with web-based stuff and this was a great learning experience. I thought I'd just run it locally somewhere but since there's only really one project online that hasn't been updated in quite a while, i thought I'd make it public. It certainly inspired me to build this, actually version it instead of just keeping a fun little project dormant on my disk and to put it on GH pages.
+
+What I like about this solution:
+
+- It's pretty quick. Getting the links for even album with several hundreds of photos takes just a few seconds. 
+- It tells you what's happening. You got a counter telling you where it's at and once that's through, you get the file. No waiting if something's gonna happen eventually- either it works or it tells you why it doesn't.
+- Bandwith and storage: Code itself's slim, node modules, especially *Wrangler*, can be substantial in size but I'm fine with it in GH's CI cache. Dependencies have been stripped down for things I can easily just include locally, saving bandwith across the web and unneccessary dependency installs. Zip module is battle hardened so I didn't wanna tap into that too much though. Also, as mentioned earlier, the actual image data doesn't pass through the CF worker, keeping traffic through that to a minimum. 
+
 
 ## Setup
 
