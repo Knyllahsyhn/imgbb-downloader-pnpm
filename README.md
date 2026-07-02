@@ -102,6 +102,7 @@ Split into three pipelines:
 | `ci.yml`            | every PR, every push to `main`           | Format check, lint, typecheck, build both packages                                               |
 | `deploy-pages.yml`  | push to `main` touching `apps/web/**`    | Checks GitHub Status, builds the web app (with the correct `BASE_PATH` for project pages) and deploys it via the official `actions/*-pages` actions. |
 | `deploy-worker.yml` | push to `main` touching `apps/worker/**` | Deploys the worker via `wrangler-action`, with its own credentials (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).          |
+| `dependabot-automerge.yml` | Dependabot pull requests                 | Auto-merges (squash) Dependabot PRs once `ci.yml` passes, except major version bumps, which stay manual. Requires `main` branch protection with `lint-typecheck-build` as a required check, and repo-level "Allow auto-merge" enabled. |
 
 
 
