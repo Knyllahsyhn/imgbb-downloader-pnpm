@@ -45,9 +45,13 @@ What I like about this solution:
 - It tells you what's happening. You got a counter telling you where it's at and once that's through, you get the file. No waiting if something's gonna happen eventually- either it works or it tells you what went wrong.
 - Bandwith and storage: Code itself's slim, node modules, especially *Wrangler*, can be substantial in size but I'm fine with it in GH's CI cache. Dependencies have been stripped down for things I don't need. And since everything runs client-side after fetching the album data, there's virtually no worker costs.
 
+## Privacy
+
+This project does not persist album pages, image files, or user data. The Cloudflare Worker fetches album metadata server-side and returns JSON only; image files are downloaded directly from i.ibb.co by the browser and are not proxied through the worker. Server-side logging is disabled. No analytics or third-party trackers are included by default.
+
+If you enable analytics, error reporting, or other monitoring for your deployment, please update this notice to describe what is collected and how long it is retained.
 
 ## Setup
-
 ```bash
 corepack enable        # or: npm install -g pnpm
 pnpm install
@@ -104,15 +108,6 @@ Possible next step once more traffic is expected: rate limiting on the
 worker (via cloudflare) against abuse of the
 `/api/album` route.
 
-## Project structure
-
-```
-apps/
-  web/       React + Vite + TypeScript + Tailwind (GitHub Pages)
-  worker/    Cloudflare Worker, scrapes imgbb server-side (CORS workaround)
-.github/
-  workflows/ CI + separate deploy pipelines
-```
 
 ## Tech stack
 
