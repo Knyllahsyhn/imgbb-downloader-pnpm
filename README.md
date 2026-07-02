@@ -63,7 +63,7 @@ pnpm dev:web             # http://localhost:5173
 
 ## Deployment
 
-### 1. Worker → Cloudflare Workers
+### 1. Worker -> Cloudflare Workers
 
 ```bash
 cd apps/worker
