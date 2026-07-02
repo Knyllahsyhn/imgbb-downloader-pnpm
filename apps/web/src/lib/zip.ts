@@ -1,10 +1,20 @@
 import JSZip from "jszip";
-import { saveAs } from "file-saver";
 import type { ImgbbImage } from "../types";
 
 export interface DownloadProgress {
   done: number;
   total: number;
+}
+
+function triggerDownload(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function uniqueFilename(existing: Set<string>, filename: string): string {
@@ -47,12 +57,12 @@ export async function downloadAlbumAsZip(
 
   const zipBlob = await zip.generateAsync({ type: "blob" });
   const safeTitle = albumTitle.replace(/[\\/:*?"<>|]+/g, "_").trim() || "album";
-  saveAs(zipBlob, `${safeTitle}.zip`);
+  triggerDownload(zipBlob, `${safeTitle}.zip`);
 }
 
 export async function downloadSingleImage(image: ImgbbImage): Promise<void> {
   const res = await fetch(image.fullUrl);
   if (!res.ok) throw new Error(`Download fehlgeschlagen: ${image.filename}`);
   const blob = await res.blob();
-  saveAs(blob, image.filename);
+  triggerDownload(blob, image.filename);
 }

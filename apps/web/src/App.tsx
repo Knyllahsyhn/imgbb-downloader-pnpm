@@ -2,7 +2,7 @@ import { useState } from "react";
 import AlbumForm from "./components/AlbumForm";
 import ImageGrid from "./components/ImageGrid";
 import DownloadBar from "./components/DownloadBar";
-import KnylMark from "./components/KnylMark";
+import BrandingLogo from "./components/BrandingLogo";
 import { fetchAlbum, ApiRequestError } from "./lib/api";
 import { downloadAlbumAsZip, type DownloadProgress } from "./lib/zip";
 import type { AlbumResult } from "./types";
@@ -110,7 +110,7 @@ export default function App() {
       </main>
 
       <footer className="flex items-center justify-center gap-2 pt-6 text-xs text-slate-600">
-        <KnylMark className="h-4 w-4" />
+        <BrandingLogo className="h-4 w-4" />
         <span>
           Built by{" "}
           <span className="bg-gradient-to-r from-[#3e5aff] to-[#8e2bff] bg-clip-text font-semibold text-transparent">

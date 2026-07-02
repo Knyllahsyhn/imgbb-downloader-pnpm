@@ -4,7 +4,7 @@ interface Props {
   className?: string;
 }
 
-export default function KnylMark({ className }: Props) {
+export default function BrandingLogo({ className }: Props) {
   const gradientId = useId();
 
   return (
