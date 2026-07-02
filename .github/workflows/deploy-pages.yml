@@ -68,13 +68,27 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Check GitHub Status
+        id: status-check
+        run: |
+          response=$(curl -s https://www.githubstatus.com/api/v2/status.json)
+          status=$(echo "$response" | jq -r '.status.indicator')
+
+          if [ "$status" != "none" ]; then
+            echo "⚠️  GitHub Status: $status"
+            echo "status=$status" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
       - id: deployment
+        if: success()
         uses: actions/deploy-pages@v5
         
       - name: Wait for deployment to stabilize
         run: sleep 10
       
       - name: Smoke test
+        if: success()
         run: |
           status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}")
           if [ "$status" != "200" ]; then
