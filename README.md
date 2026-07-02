@@ -48,7 +48,7 @@ What I like about this solution:
 ## Privacy
 
 This project does not persist album pages, image files, or user data. The Cloudflare Worker fetches album metadata server-side and returns JSON only; image files are downloaded directly from i.ibb.co by the browser and are not proxied through the worker. Server-side logging is disabled. No analytics or third-party trackers are included by default.
-
+For more details, see [PRIVACY](./PRIVACY)
 If you enable analytics, error reporting, or other monitoring for your deployment, please update this notice to describe what is collected and how long it is retained.
 
 ## Setup
