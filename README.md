@@ -37,7 +37,7 @@ Thus the two.part architecture:
   bytes through itself.
 
 ## Isn't this overkill for just downloading a few files? 
-Possibly. But I'm trying to get a bit more experience with web-based stuff and this was a great learning experience. I thought I'd just run it locally somewhere but since there's only really one person who would use it (me) and there's free tier options for everything, why not?
+Possibly. But I'm trying to get a bit more experience with web-based stuff and this was a great learning experience. I thought I'd just run it locally somewhere but since the other project on Github for downloading from ImgBB has been pretty much abandoned and there's free tier options for everything, why not?
 
 What I like about this solution:
 
