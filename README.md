@@ -1,8 +1,8 @@
 ## Status
 
-If deployments are failing, check [GitHub Status](https://www.githubstatus.com) — Pages component issues will cause timeouts. The workflow now includes an automatic check and will skip deployment if GitHub Pages is degraded.
+If deployments are failing, check [GitHub Status](https://www.githubstatus.com)  - Pages component issues will cause timeouts. The workflow now includes an automatic check and will skip deployment if GitHub Pages is degraded.
 
-| Component | Badge |
+| Component | Status |
 |-----------|-------|
 | CI/Lint/Typecheck | [![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml) |
 | Pages Deployment | [![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml) |
