@@ -23,7 +23,7 @@ jobs:
   wait-for-ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: lewagon/wait-on-check-action@v1.8.0
+      - uses: lewagon/wait-on-check-action@v1.8.1
         with:
           ref: ${{ github.sha }}
           check-name: lint-typecheck-build
@@ -57,7 +57,7 @@ jobs:
           fi
           pnpm build:web
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: apps/web/dist
 
@@ -69,7 +69,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
       - name: Smoke test
         run: |
