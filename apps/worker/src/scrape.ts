@@ -91,10 +91,6 @@ interface AlbumContentsResponse {
   album?: { name?: string };
 }
 
-// The album page itself only renders the first ~24-32 images server-side;
-// the rest are lazy-loaded client-side. imgbb's own "Embed codes" tab avoids
-// that by fetching the full, unpaginated list from this endpoint instead, so
-// we use the same one to get every image in a single request.
 async function fetchAlbumContents(albumId: string): Promise<AlbumContentsResponse | null> {
   const res = await fetch("https://ibb.co/json", {
     method: "POST",
@@ -147,9 +143,7 @@ export async function fetchAlbum(input: string): Promise<AlbumResult> {
   const titleMatch = html.match(OG_TITLE_RE);
   let title = titleMatch ? decodeEntities(titleMatch[1]) : albumId;
 
-  // Fetch the complete, unpaginated image list. Images already found in the
-  // HTML keep their richer metadata (width/height/size); this only adds the
-  // ones the lazy-loaded page left out.
+
   let truncated = false;
   const contents = await fetchAlbumContents(albumId);
   if (contents) {

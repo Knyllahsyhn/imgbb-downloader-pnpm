@@ -4,7 +4,7 @@ compatibility_date = "2026-07-01"
 compatibility_flags = ["nodejs_compat"]
 
 [observability]
-enabled = true
+enabled = false
 
 [vars]
 ALLOWED_ORIGIN = "https://knyllahsyhn.github.io"
