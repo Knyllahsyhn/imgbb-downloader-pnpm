@@ -70,7 +70,10 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
-
+        
+      - name: Wait for deployment to stabilize
+        run: sleep 10
+      
       - name: Smoke test
         run: |
           status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}")
