@@ -1,4 +1,4 @@
-
+## !!  Pages deployment currently failing but that seems to be a GH issue (infinitely queued deployments) that should resolve soon. The version currently running on GH Pages is fully operational !!
 
 # imgbb Album Downloader
 [![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml)
