@@ -113,7 +113,7 @@ export default function App() {
         <BrandingLogo className="h-4 w-4" />
         <span>
           Built by{" "}
-          <span className="bg-gradient-to-r from-[#3e5aff] to-[#8e2bff] bg-clip-text font-semibold text-transparent">
+          <span className="bg-linear-to-r from-[#3e5aff] to-[#8e2bff] bg-clip-text font-semibold text-transparent">
             KNYL
           </span>
         </span>

@@ -21,7 +21,7 @@ export default function AlbumForm({ loading, onSubmit }: Props) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="https://ibb.co/album/xxxxxx"
-        className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-none ring-brand-500 focus:ring-2"
+        className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-hidden ring-brand-500 focus:ring-2"
       />
       <button
         type="submit"
