@@ -143,7 +143,6 @@ export async function fetchAlbum(input: string): Promise<AlbumResult> {
   const titleMatch = html.match(OG_TITLE_RE);
   let title = titleMatch ? decodeEntities(titleMatch[1]) : albumId;
 
-
   let truncated = false;
   const contents = await fetchAlbumContents(albumId);
   if (contents) {

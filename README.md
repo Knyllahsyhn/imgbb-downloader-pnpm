@@ -1,18 +1,17 @@
 ## Status
 
-If deployments are failing, check [GitHub Status](https://www.githubstatus.com)  - Pages component issues will cause timeouts. The workflow now includes an automatic check and will skip deployment if GitHub Pages is degraded.
+If deployments are failing, check [GitHub Status](https://www.githubstatus.com) - Pages component issues will cause timeouts. The workflow now includes an automatic check and will skip deployment if GitHub Pages is degraded.
 
-| Component | Status |
-|-----------|-------|
-| CI/Lint/Typecheck | [![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml) |
-| Pages Deployment | [![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml) |
+| Component         | Status                                                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CI/Lint/Typecheck | [![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml)                                     |
+| Pages Deployment  | [![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml)                       |
 | Worker Deployment | [![Cloudflare worker deployment](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml) |
 
 # imgbb Album Downloader
 
 Downloads entire [imgbb](https://imgbb.com) (`ibb.co`) albums as a ZIP - with
 a preview grid, per-image selection, and a user-friendly UI.
-
 
 ## Why two parts (`apps/web`, `apps/worker`)?
 
@@ -36,14 +35,15 @@ Thus the two.part architecture:
   [JSZip](https://stuk.github.io/jszip/). The Worker never has to pass image
   bytes through itself.
 
-## Isn't this overkill for just downloading a few files? 
+## Isn't this overkill for just downloading a few files?
+
 Possibly. But I'm trying to get a bit more experience with web-based stuff and this was a great learning experience. I thought I'd just run it locally somewhere but since the other project on Github for downloading from ImgBB has been pretty much abandoned and there's free tier options for everything, why not?
 
 What I like about this solution:
 
-- It's pretty quick. Getting the links for even album with several hundreds of photos takes just a few seconds. 
+- It's pretty quick. Getting the links for even album with several hundreds of photos takes just a few seconds.
 - It tells you what's happening. You got a counter telling you where it's at and once that's through, you get the file. No waiting if something's gonna happen eventually- either it works or it tells you what went wrong.
-- Bandwith and storage: Code itself's slim, node modules, especially *Wrangler*, can be substantial in size but I'm fine with it in GH's CI cache. Dependencies have been stripped down for things I don't need. And since everything runs client-side after fetching the album data, there's virtually no worker costs.
+- Bandwith and storage: Code itself's slim, node modules, especially _Wrangler_, can be substantial in size but I'm fine with it in GH's CI cache. Dependencies have been stripped down for things I don't need. And since everything runs client-side after fetching the album data, there's virtually no worker costs.
 
 ## Privacy
 
@@ -53,6 +53,7 @@ For more details, see [PRIVACY](./PRIVACY).
 If you enable analytics, error reporting, or other monitoring for your deployment, please update this notice to describe what is collected and how long it is retained.
 
 ## Setup
+
 ```bash
 corepack enable        # or: npm install -g pnpm
 pnpm install
@@ -81,7 +82,7 @@ pnpm exec wrangler login
 pnpm deploy              # or: pnpm --filter worker deploy
 ```
 
-Afterwards, set `wrangler.toml` ->  `vars.ALLOWED_ORIGIN` to your GitHub Pages
+Afterwards, set `wrangler.toml` -> `vars.ALLOWED_ORIGIN` to your GitHub Pages
 URL (e.g. `https://<user>.github.io`) so arbitrary sites can't call the API.
 
 ### 2. Web -> GitHub Pages
@@ -97,19 +98,16 @@ URL (e.g. `https://<user>.github.io`) so arbitrary sites can't call the API.
 
 Split into three pipelines:
 
-| Workflow            | Trigger                                  | Purpose                                                                                                                        |
-| ------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `ci.yml`            | every PR, every push to `main`           | Format check, lint, typecheck, build both packages                                               |
-| `deploy-pages.yml`  | push to `main` touching `apps/web/**`    | Checks GitHub Status, builds the web app (with the correct `BASE_PATH` for project pages) and deploys it via the official `actions/*-pages` actions. |
-| `deploy-worker.yml` | push to `main` touching `apps/worker/**` | Deploys the worker via `wrangler-action`, with its own credentials (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).          |
+| Workflow                   | Trigger                                  | Purpose                                                                                                                                                                                                                                |
+| -------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`                   | every PR, every push to `main`           | Format check, lint, typecheck, build both packages                                                                                                                                                                                     |
+| `deploy-pages.yml`         | push to `main` touching `apps/web/**`    | Checks GitHub Status, builds the web app (with the correct `BASE_PATH` for project pages) and deploys it via the official `actions/*-pages` actions.                                                                                   |
+| `deploy-worker.yml`        | push to `main` touching `apps/worker/**` | Deploys the worker via `wrangler-action`, with its own credentials (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).                                                                                                                  |
 | `dependabot-automerge.yml` | Dependabot pull requests                 | Auto-merges (squash) Dependabot PRs once `ci.yml` passes, except major version bumps, which stay manual. Requires `main` branch protection with `lint-typecheck-build` as a required check, and repo-level "Allow auto-merge" enabled. |
-
-
 
 Possible next step once more traffic is expected: rate limiting on the
 worker (via cloudflare) against abuse of the
 `/api/album` route.
-
 
 ## Tech stack
 

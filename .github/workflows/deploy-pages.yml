@@ -83,10 +83,10 @@ jobs:
       - id: deployment
         if: success()
         uses: actions/deploy-pages@v5
-        
+
       - name: Wait for deployment to stabilize
         run: sleep 10
-      
+
       - name: Smoke test
         if: success()
         run: |
