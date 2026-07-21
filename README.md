@@ -41,7 +41,7 @@ Possibly. But I'm trying to get a bit more experience with web-based stuff and t
 
 What I like about this solution:
 
-- It's pretty quick. Getting the links for even album with several hundreds of photos takes just a few seconds.
+- It's pretty quick. Getting the links for even album with several hundreds of photos takes just a few seconds (even faster now since last update-I'm honestly surprised myself lol9
 - It tells you what's happening. You got a counter telling you where it's at and once that's through, you get the file. No waiting if something's gonna happen eventually- either it works or it tells you what went wrong.
 - Bandwith and storage: Code itself's slim, node modules, especially _Wrangler_, can be substantial in size but I'm fine with it in GH's CI cache. Dependencies have been stripped down for things I don't need. And since everything runs client-side after fetching the album data, there's virtually no worker costs.
 
