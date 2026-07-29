@@ -21,7 +21,7 @@ jobs:
   wait-for-ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: lewagon/wait-on-check-action@v1.8.1
+      - uses: lewagon/wait-on-check-action@v1.9.0
         with:
           ref: ${{ github.sha }}
           check-name: lint-typecheck-build
