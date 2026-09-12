@@ -1,4 +1,4 @@
 version: 53
 imports:
-- projectPath: Knyllahsyhn
-  revision: main
+  - projectPath: Knyllahsyhn
+    revision: main
