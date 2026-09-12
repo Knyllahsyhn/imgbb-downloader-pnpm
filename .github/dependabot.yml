@@ -6,14 +6,27 @@ updates:
       interval: weekly
     cooldown:
       default-days: 1
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     groups:
-      dev-dependencies:
-        dependency-type: development
-        update-types:
-          - "minor"
-          - "patch"
+      packages:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 1
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+      include: scope
