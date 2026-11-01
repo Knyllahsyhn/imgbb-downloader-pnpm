@@ -16,29 +16,31 @@ export default function AlbumForm({ loading, initialValue = "", onSubmit }: Prop
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3 sm:flex-row">
-      <label htmlFor="album-url" className="sr-only">
-        imgbb album link
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4 sm:p-5">
+      <label htmlFor="album-url" className="label-caps text-xs">
+        From <span className="sr-only">imgbb album link</span>
       </label>
-      <input
-        id="album-url"
-        name="album"
-        type="text"
-        inputMode="url"
-        autoComplete="off"
-        spellCheck={false}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="https://ibb.co/album/xxxxxx"
-        className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 placeholder-slate-400 outline-hidden ring-brand-500 focus-visible:ring-2"
-      />
-      <button
-        type="submit"
-        disabled={loading || !value.trim()}
-        className="rounded-xl bg-brand-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-300 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {loading ? "Loading…" : "Load album"}
-      </button>
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <input
+          id="album-url"
+          name="album"
+          type="text"
+          inputMode="url"
+          autoComplete="off"
+          spellCheck={false}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="https://ibb.co/album/…"
+          className="mono-data min-w-0 flex-1 border-2 border-ink bg-label px-3 py-3 text-sm text-ink placeholder:text-muted focus-visible:outline-offset-0"
+        />
+        <button
+          type="submit"
+          disabled={loading || !value.trim()}
+          className="label-caps border-2 border-ink bg-signal px-6 py-3 text-base text-on-signal hover:brightness-95 disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted disabled:border-dashed"
+        >
+          {loading ? "Loading…" : "Load album"}
+        </button>
+      </div>
     </form>
   );
 }

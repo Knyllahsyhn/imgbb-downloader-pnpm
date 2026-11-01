@@ -8,8 +8,10 @@
       name="description"
       content="Download entire imgbb (ibb.co) albums as a zip. Preview the images, pick the ones you want, and save them in one go."
     />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#b7b9b3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141513" media="(prefers-color-scheme: dark)" />
+    <script src="/theme-init.js"></script>
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -28,7 +30,7 @@
     <meta property="og:image:alt" content="imgbb Album Downloader logo and title" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body class="bg-slate-950 text-slate-100">
+  <body>
     <noscript>
       <p class="p-8">This app needs JavaScript to load albums and build the ZIP file.</p>
     </noscript>

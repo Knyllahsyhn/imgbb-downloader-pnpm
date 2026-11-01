@@ -1,53 +1,56 @@
 import type { ImgbbImage } from "../types";
+import { formatBytes } from "../lib/format";
 
 interface Props {
   image: ImgbbImage;
+  position: number;
   selected: boolean;
   onToggle: (id: string) => void;
 }
 
-function formatBytes(bytes: number | null): string {
-  if (!bytes) return "";
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let unit = 0;
-  while (value >= 1024 && unit < units.length - 1) {
-    value /= 1024;
-    unit += 1;
-  }
-  return `${value.toFixed(1)} ${units[unit]}`;
-}
+export default function ImageCard({ image, position, selected, onToggle }: Props) {
+  const meta = [
+    image.width && image.height ? `${image.width}×${image.height}` : "",
+    formatBytes(image.sizeBytes),
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
-export default function ImageCard({ image, selected, onToggle }: Props) {
   return (
     <label
-      className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border transition ${
-        selected
-          ? "border-brand-500 ring-2 ring-brand-500"
-          : "border-slate-800 hover:border-slate-600"
-      } bg-slate-900 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brand-300`}
+      className={`group relative flex cursor-pointer flex-col border-2 bg-label ${
+        selected ? "border-ink" : "border-dashed border-muted"
+      }`}
     >
       <input
         type="checkbox"
-        className="absolute left-2 top-2 z-10 h-5 w-5 accent-brand-500 focus-visible:outline-none"
+        className="peer absolute top-2 left-2 z-10 size-6 cursor-pointer appearance-none border-2 border-ink bg-label checked:bg-ink focus-visible:outline-offset-1"
         checked={selected}
         onChange={() => onToggle(image.id)}
       />
-      <div className="aspect-square w-full overflow-hidden bg-slate-800">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-2 left-2 z-20 hidden size-6 place-items-center text-sm leading-none font-black text-label peer-checked:grid"
+      >
+        ✓
+      </span>
+      <div className="aspect-square w-full overflow-hidden border-b-2 border-inherit">
         <img
           src={image.thumbUrl}
           alt=""
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover motion-safe:transition motion-safe:duration-200 motion-safe:group-hover:scale-105"
+          className={`h-full w-full object-cover motion-safe:transition ${
+            selected ? "" : "opacity-60 grayscale group-hover:opacity-90"
+          }`}
         />
       </div>
-      <div className="flex flex-col gap-0.5 p-2">
-        <span className="truncate text-xs font-medium text-slate-200">{image.title}</span>
-        <span className="text-[11px] text-slate-400">
-          {image.width && image.height ? `${image.width}×${image.height}` : ""}
-          {image.sizeBytes ? ` · ${formatBytes(image.sizeBytes)}` : ""}
+      <div className="flex flex-col gap-0.5 px-2 py-1.5">
+        <span className="flex items-baseline gap-2 text-sm">
+          <span className="mono-data text-xs font-bold">{String(position).padStart(2, "0")}</span>
+          <span className="truncate font-medium">{image.title}</span>
         </span>
+        <span className="mono-data truncate text-[11px] text-muted">{meta}</span>
       </div>
     </label>
   );

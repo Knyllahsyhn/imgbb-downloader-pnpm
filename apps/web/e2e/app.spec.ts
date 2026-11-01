@@ -95,7 +95,7 @@ test("loads an album, keeps it in the URL and downloads a ZIP", async ({ page })
   await expectNoAxeViolations(page);
 
   await page.getByRole("checkbox", { name: /Photo a2/ }).uncheck();
-  await expect(page.getByText("2 / 3 selected")).toBeVisible();
+  await expect(page.getByText("2 of 3 selected")).toBeVisible();
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download 2 as ZIP" }).click();
@@ -129,4 +129,57 @@ test("reports images that could not be downloaded", async ({ page }) => {
   await downloadPromise;
   await expect(page.getByText(/1 image could not be downloaded/)).toBeVisible();
   await expect(page.getByRole("link", { name: "a3.png" })).toBeVisible();
+});
+
+test("shows a scannable barcode of the album ID", async ({ page }) => {
+  await mockBackend(page);
+  await page.goto("./?album=test123");
+  await expect(page.getByRole("img", { name: "Barcode for album test123" })).toBeVisible();
+});
+
+test("theme toggle steps through Auto, Light and Dark and remembers the choice", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("./");
+  const html = page.locator("html");
+  const toggle = page.getByRole("button", { name: /Color theme/ });
+
+  await expect(toggle).toHaveAccessibleName(/Auto, follows your system setting/);
+  await expect(html).toHaveAttribute("data-theme", "dark");
+
+  await toggle.click();
+  await expect(toggle).toHaveAccessibleName(/Color theme: Light/);
+  await expect(html).toHaveAttribute("data-theme", "light");
+
+  await toggle.click();
+  await expect(toggle).toHaveAccessibleName(/Color theme: Dark/);
+  await expect(html).toHaveAttribute("data-theme", "dark");
+
+  await page.reload();
+  await expect(html).toHaveAttribute("data-theme", "dark");
+
+  await toggle.click();
+  await expect(toggle).toHaveAccessibleName(/Auto/);
+  await page.emulateMedia({ colorScheme: "light" });
+  await expect(html).toHaveAttribute("data-theme", "light");
+});
+
+test("dark mode with a loaded album is accessible", async ({ page }) => {
+  const csp = collectCspViolations(page);
+  await page.emulateMedia({ colorScheme: "dark" });
+  await mockBackend(page);
+  await page.goto("./?album=test123");
+  await expect(page.getByRole("heading", { name: "Test Album" })).toBeVisible();
+  await page.getByText("What's new").click();
+  await expectNoAxeViolations(page);
+  expect(csp).toEqual([]);
+});
+
+test("what's new lists the changes", async ({ page }) => {
+  await page.goto("./");
+  const details = page.locator("details", { hasText: "What's new" });
+  await expect(details.getByRole("listitem").first()).toBeHidden();
+  await page.getByText("What's new").click();
+  await expect(details.getByText(/light and dark mode/)).toBeVisible();
 });
