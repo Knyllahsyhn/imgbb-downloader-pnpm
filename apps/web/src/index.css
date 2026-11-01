@@ -12,3 +12,17 @@
   --color-brand-800: #212d87;
   --color-brand-900: #1f296b;
 }
+
+/* Cookie by Ania Kruk, SIL Open Font License 1.1. Latin subset, self-hosted
+   so the support button makes no request to Google Fonts. */
+@font-face {
+  font-family: "Cookie";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/cookie-latin.woff2") format("woff2");
+}
+
+@theme {
+  --font-cookie: "Cookie", cursive;
+}
