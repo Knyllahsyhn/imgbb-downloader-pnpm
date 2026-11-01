@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page, type Route } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 // 1×1 transparent PNG, served for every image request.
@@ -23,6 +23,7 @@ function makeImage(id: string) {
 }
 
 const ALBUM = {
+  provider: "imgbb",
   albumId: "test123",
   albumUrl: "https://ibb.co/album/test123",
   title: "Test Album",
@@ -30,9 +31,46 @@ const ALBUM = {
   truncated: false,
 };
 
+function makeCatboxFile(id: string) {
+  const filename = `${id}.png`;
+  return {
+    id,
+    title: filename,
+    filename,
+    thumbUrl: `https://files.catbox.moe/thumbs/t_${filename}`,
+    mediumUrl: `https://files.catbox.moe/${filename}`,
+    fullUrl: `https://files.catbox.moe/${filename}`,
+    width: 0,
+    height: 0,
+    sizeBytes: null,
+    pageUrl: `https://files.catbox.moe/${filename}`,
+  };
+}
+
+const CATBOX_ALBUM = {
+  provider: "catbox",
+  albumId: "cat123",
+  albumUrl: "https://catbox.moe/c/cat123",
+  title: "Catbox Album",
+  images: ["c1", "c2"].map(makeCatboxFile),
+  truncated: false,
+};
+
+async function servePng(route: Route) {
+  await route.fulfill({
+    body: PNG,
+    contentType: "image/png",
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
+}
+
 async function mockBackend(page: Page, { failImage }: { failImage?: string } = {}) {
   await page.route("http://127.0.0.1:8787/api/album**", async (route) => {
     const url = new URL(route.request().url()).searchParams.get("url") ?? "";
+    if (url.includes("catbox.moe")) {
+      await route.fulfill({ json: CATBOX_ALBUM, headers: { "Access-Control-Allow-Origin": "*" } });
+      return;
+    }
     if (url.includes("missing")) {
       await route.fulfill({
         status: 404,
@@ -48,12 +86,9 @@ async function mockBackend(page: Page, { failImage }: { failImage?: string } = {
       await route.fulfill({ status: 404, body: "" });
       return;
     }
-    await route.fulfill({
-      body: PNG,
-      contentType: "image/png",
-      headers: { "Access-Control-Allow-Origin": "*" },
-    });
+    await servePng(route);
   });
+  await page.route("https://files.catbox.moe/**", servePng);
 }
 
 function collectCspViolations(page: Page): string[] {
@@ -76,7 +111,7 @@ async function expectNoAxeViolations(page: Page) {
 test("start page is accessible", async ({ page }) => {
   const csp = collectCspViolations(page);
   await page.goto("./");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("imgbb Album Downloader");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Album Downloader");
   await expectNoAxeViolations(page);
   expect(csp).toEqual([]);
 });
@@ -86,7 +121,7 @@ test("loads an album, keeps it in the URL and downloads a ZIP", async ({ page })
   await mockBackend(page);
   await page.goto("./");
 
-  await page.getByLabel("imgbb album link").fill("https://ibb.co/album/test123");
+  await page.getByLabel("album link").fill("https://ibb.co/album/test123");
   await page.getByRole("button", { name: "Load album" }).click();
 
   await expect(page.getByRole("heading", { name: "Test Album" })).toBeVisible();
@@ -104,17 +139,39 @@ test("loads an album, keeps it in the URL and downloads a ZIP", async ({ page })
   expect(csp).toEqual([]);
 });
 
+test("loads a Catbox album and downloads it as a ZIP", async ({ page }) => {
+  const csp = collectCspViolations(page);
+  await mockBackend(page);
+  await page.goto("./");
+
+  await page.getByLabel("album link").fill("catbox.moe/c/cat123");
+  await page.getByRole("button", { name: "Load album" }).click();
+
+  await expect(page.getByRole("heading", { name: "Catbox Album" })).toBeVisible();
+  await expect(page.getByRole("checkbox")).toHaveCount(2);
+  await expect(page.getByRole("link", { name: /Open on Catbox/ })).toHaveAttribute(
+    "href",
+    "https://catbox.moe/c/cat123",
+  );
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download 2 as ZIP" }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe("Catbox Album.zip");
+  expect(csp).toEqual([]);
+});
+
 test("reloading a shared link loads the album again", async ({ page }) => {
   await mockBackend(page);
   await page.goto("./?album=https%3A%2F%2Fibb.co%2Falbum%2Ftest123");
   await expect(page.getByRole("heading", { name: "Test Album" })).toBeVisible();
-  await expect(page.getByLabel("imgbb album link")).toHaveValue("https://ibb.co/album/test123");
+  await expect(page.getByLabel("album link")).toHaveValue("https://ibb.co/album/test123");
 });
 
 test("shows API errors in an alert", async ({ page }) => {
   await mockBackend(page);
   await page.goto("./");
-  await page.getByLabel("imgbb album link").fill("https://ibb.co/album/missing");
+  await page.getByLabel("album link").fill("https://ibb.co/album/missing");
   await page.getByRole("button", { name: "Load album" }).click();
   await expect(page.getByRole("alert")).toHaveText("Album not found (private or deleted?).");
 });

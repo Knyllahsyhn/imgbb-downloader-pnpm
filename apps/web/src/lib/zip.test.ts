@@ -7,9 +7,9 @@ import {
   safeZipName,
   uniqueFilename,
 } from "./zip";
-import type { ImgbbImage } from "../types";
+import type { AlbumImage } from "../types";
 
-function image(id: string, filename = `${id}.jpg`): ImgbbImage {
+function image(id: string, filename = `${id}.jpg`): AlbumImage {
   return {
     id,
     title: id,

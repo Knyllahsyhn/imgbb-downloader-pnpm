@@ -1,23 +1,23 @@
 # Privacy Notice
 
-Last updated: 2026-11-01
+Last updated: 2026-11-01 (Catbox support)
 
-This document explains what data the imgbb Album Downloader collects, processes, or stores when using the Cloudflare Worker and web frontend, and what privacy guarantees are provided by the default project configuration.
+This document explains what data the Album Downloader collects, processes, or stores when using the Cloudflare Worker and web frontend, and what privacy guarantees are provided by the default project configuration.
 
 If you deploy your own instance of the worker or enable additional monitoring/analytics, you are responsible for updating this notice to reflect those changes.
 
 ## Summary
 
-- The worker fetches imgbb album pages server-side to extract image metadata (IDs, titles, URLs, ordering, timestamps, etc.) and returns that information as JSON.
-- Image bytes are not proxied through the worker — the browser downloads images directly from i.ibb.co when zipping/downloading. The worker does not persist image files.
+- The worker fetches imgbb and Catbox album pages server-side to extract image metadata (IDs, titles, URLs, ordering, timestamps, etc.) and returns that information as JSON.
+- Image bytes are not proxied through the worker: the browser downloads images directly from the image host (i.ibb.co or files.catbox.moe) when zipping/downloading. The worker does not persist image files.
 - Server-side logging is disabled in the worker code that was recently committed. The worker does not persist album URLs, image URLs, or image content to any repository-controlled storage.
 - The project does not include analytics, third-party trackers, or crash-reporting integrations by default.
 
 ## Request handling
 
 - What the worker receives: when you call the worker's API (GET /api/album?url=...), the worker receives the album page URL and any standard HTTP headers sent by the client.
-- What the worker does: it fetches the album page HTML and/or calls imgbb's JSON endpoints to build a complete image metadata list. It returns structured JSON containing metadata and direct image URLs.
-- Image bytes: the worker does not download or forward the actual image bytes to the client. Clients fetch images directly from the origin (i.ibb.co).
+- What the worker does: it fetches the album page HTML and, for imgbb, calls imgbb's JSON endpoints to build a complete image metadata list. It returns structured JSON containing metadata and direct image URLs.
+- Image bytes: the worker does not download or forward the actual image bytes to the client. Clients fetch images directly from the origin (i.ibb.co or files.catbox.moe).
 
 ## Logging and retention
 
@@ -27,8 +27,8 @@ If you deploy your own instance of the worker or enable additional monitoring/an
 
 ## Caching and rate limiting
 
-- Short-lived cache: a successful album lookup (the JSON metadata described above) is kept in Cloudflare's edge cache and in your browser cache for up to 5 minutes, keyed by album ID. It contains no information about the requesting user.
-- Rate limiting: to protect the worker and imgbb from abuse, uncached lookups are limited per client IP address using Cloudflare's rate limiting binding. The IP address is used only as a counter key inside Cloudflare's rate limiter for the current one-minute window; the worker code does not store or log it.
+- Short-lived cache: a successful album lookup (the JSON metadata described above) is kept in Cloudflare's edge cache and in your browser cache for up to 5 minutes, keyed by host and album ID. It contains no information about the requesting user.
+- Rate limiting: to protect the worker and the image hosts from abuse, uncached lookups are limited per client IP address using Cloudflare's rate limiting binding. The IP address is used only as a counter key inside Cloudflare's rate limiter for the current one-minute window; the worker code does not store or log it.
 
 ## Analytics, third parties, and error reporting
 

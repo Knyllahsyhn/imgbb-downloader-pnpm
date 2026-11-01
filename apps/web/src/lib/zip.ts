@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import type { ImgbbImage } from "../types";
+import type { AlbumImage } from "../types";
 
 export interface DownloadProgress {
   done: number;
@@ -16,7 +16,7 @@ export interface DownloadOptions {
 }
 
 export interface DownloadResult {
-  failed: ImgbbImage[];
+  failed: AlbumImage[];
 }
 
 export class AllDownloadsFailedError extends Error {}
@@ -76,7 +76,7 @@ export async function mapWithConcurrency<T, R>(
   return results;
 }
 
-async function fetchImage(image: ImgbbImage, signal: AbortSignal): Promise<Blob> {
+async function fetchImage(image: AlbumImage, signal: AbortSignal): Promise<Blob> {
   const res = await fetch(image.fullUrl, { signal });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${image.filename}`);
   return res.blob();
@@ -89,12 +89,12 @@ async function fetchImage(image: ImgbbImage, signal: AbortSignal): Promise<Blob>
  */
 export async function downloadAlbumAsZip(
   albumTitle: string,
-  images: ImgbbImage[],
+  images: AlbumImage[],
   { onProgress, signal, concurrency = 5, timeoutMs = 60_000 }: DownloadOptions = {},
 ): Promise<DownloadResult> {
   const zip = new JSZip();
   const usedNames = new Set<string>();
-  const failed: ImgbbImage[] = [];
+  const failed: AlbumImage[] = [];
   let done = 0;
 
   await mapWithConcurrency(images, concurrency, async (image) => {

@@ -1,8 +1,8 @@
-import type { ImgbbImage } from "../types";
+import type { AlbumImage } from "../types";
 import ImageCard from "./ImageCard";
 
 interface Props {
-  images: ImgbbImage[];
+  images: AlbumImage[];
   selectedIds: Set<string>;
   onToggle: (id: string) => void;
 }

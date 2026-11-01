@@ -50,9 +50,11 @@ describe("parseAlbumInput", () => {
     ["https://ibb.co/album/abc123?sort=date", "abc123"],
     ["https://imgbb.com/album/abc123", "abc123"],
     ["https://de.imgbb.com/album/abc123", "abc123"],
+    ["ibb.co/album/abc123", "abc123"],
     ["  abc123  ", "abc123"],
   ])("reads the album ID from %s", (input, id) => {
     expect(parseAlbumInput(input)).toEqual({
+      provider: "imgbb",
       albumId: id,
       albumUrl: `https://ibb.co/album/${id}`,
     });
@@ -86,6 +88,7 @@ describe("fetchAlbum", () => {
 
     const result = await fetchAlbum("https://ibb.co/album/xyz");
 
+    expect(result.provider).toBe("imgbb");
     expect(result.title).toBe("Holiday 2026");
     expect(result.truncated).toBe(false);
     expect(result.images.map((i) => i.id)).toEqual(["a1", "a2", "a3"]);
@@ -136,6 +139,6 @@ describe("fetchAlbum", () => {
 
   it("throws a generic error for other upstream failures", async () => {
     mockFetch({ status: 503, body: "" });
-    await expect(fetchAlbum("xyz")).rejects.toThrow("status 503");
+    await expect(fetchAlbum("xyz")).rejects.toThrow("imgbb responded with status 503");
   });
 });

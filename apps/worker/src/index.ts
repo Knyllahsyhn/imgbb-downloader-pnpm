@@ -36,9 +36,10 @@ async function handleAlbum(
     return json({ error: "Missing query parameter 'url'." }, { status: 400 }, env);
   }
 
+  let provider: string;
   let albumId: string;
   try {
-    albumId = parseAlbumInput(albumInput).albumId;
+    ({ provider, albumId } = parseAlbumInput(albumInput));
   } catch (err) {
     if (err instanceof InvalidAlbumUrlError) {
       return json({ error: err.message }, { status: 400 }, env);
@@ -47,7 +48,10 @@ async function handleAlbum(
   }
 
   // Normalised cache key, so different spellings of the same album share one entry.
-  const cacheKey = new Request(new URL(`/api/album/${encodeURIComponent(albumId)}`, url.origin));
+  // The provider is part of it because album IDs are only unique per host.
+  const cacheKey = new Request(
+    new URL(`/api/album/${provider}/${encodeURIComponent(albumId)}`, url.origin),
+  );
   const cache = caches.default;
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
