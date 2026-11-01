@@ -1,17 +1,6 @@
 @import "tailwindcss";
-
-@theme {
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dbe6ff;
-  --color-brand-200: #b8ccff;
-  --color-brand-300: #8babff;
-  --color-brand-400: #5c82ff;
-  --color-brand-500: #3a5cf5;
-  --color-brand-600: #2a41d6;
-  --color-brand-700: #2333ab;
-  --color-brand-800: #212d87;
-  --color-brand-900: #1f296b;
-}
+@import "@fontsource-variable/archivo/standard.css";
+@import "@fontsource-variable/martian-mono/standard.css";
 
 /* Cookie by Ania Kruk, SIL Open Font License 1.1. Latin subset, self-hosted
    so the support button makes no request to Google Fonts. */
@@ -23,6 +12,89 @@
   src: url("./assets/fonts/cookie-latin.woff2") format("woff2");
 }
 
+/*
+ * Shipping label palette.
+ * board:  the cardboard box the label is stuck on
+ * label:  thermal paper
+ * ink:    thermal print
+ * muted:  secondary print, at least 4.5:1 on label and board
+ * signal: priority sticker orange, only behind black text
+ */
+:root,
+[data-theme="light"] {
+  --board: #b7b9b3;
+  --label: #fbfbf8;
+  --ink: #121212;
+  --muted: #55554f;
+  --signal: #ff5b14;
+  --on-signal: #121212;
+  --error: #b3261e;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --board: #141513;
+  --label: #262724;
+  --ink: #f1f0ea;
+  --muted: #a9a9a1;
+  --signal: #ff6a2a;
+  --on-signal: #121212;
+  --error: #ff8a80;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-board: var(--board);
+  --color-label: var(--label);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-signal: var(--signal);
+  --color-on-signal: var(--on-signal);
+  --color-error: var(--error);
+}
+
 @theme {
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, monospace;
   --font-cookie: "Cookie", cursive;
+}
+
+@layer base {
+  html {
+    background-color: var(--board);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Condensed uppercase print used for the label's field names. */
+  .label-caps {
+    font-stretch: 62%;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .label-display {
+    font-stretch: 62%;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.01em;
+    word-spacing: 0.12em;
+  }
+
+  .mono-data {
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+  }
 }

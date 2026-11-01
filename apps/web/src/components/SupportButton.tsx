@@ -10,7 +10,7 @@ export default function SupportButton() {
       href={SUPPORT_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex h-[60px] min-w-[210px] items-center gap-2 rounded-xl bg-[#FFDD00] px-6 font-cookie text-[28px] leading-none whitespace-nowrap text-black no-underline transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-300"
+      className="inline-flex h-[60px] min-w-[210px] items-center gap-2 rounded-xl bg-[#FFDD00] px-6 font-cookie text-[28px] leading-none whitespace-nowrap text-black no-underline transition hover:brightness-95"
     >
       <span aria-hidden="true">🔌</span>
       <span>Help pay my electricity bill</span>
