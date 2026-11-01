@@ -18,7 +18,3 @@ export interface AlbumResult {
   images: ImgbbImage[];
   truncated: boolean;
 }
-
-export interface Env {
-  ALLOWED_ORIGIN: string;
-}
