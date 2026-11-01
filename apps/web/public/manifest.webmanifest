@@ -1,7 +1,7 @@
 {
-  "name": "imgbb Album Downloader",
-  "short_name": "imgbb DL",
-  "description": "Download entire imgbb (ibb.co) albums as a zip.",
+  "name": "Album Downloader",
+  "short_name": "Album DL",
+  "description": "Download entire imgbb and Catbox albums as a zip.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

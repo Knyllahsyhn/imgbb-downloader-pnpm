@@ -8,25 +8,38 @@ If deployments are failing, check [GitHub Status](https://www.githubstatus.com) 
 | Pages Deployment  | [![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml)                       |
 | Worker Deployment | [![Cloudflare worker deployment](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml) |
 
-# imgbb Album Downloader
+# Album Downloader
 
-Downloads entire [imgbb](https://imgbb.com) (`ibb.co`) albums as a ZIP - with
-a preview grid, per-image selection, and a user-friendly UI.
+Downloads entire [imgbb](https://imgbb.com) (`ibb.co`) and
+[Catbox](https://catbox.moe) (`catbox.moe/c/…`) albums as a ZIP - with a
+preview grid, per-image selection, and a user-friendly UI.
+
+## Supported hosts
+
+| Host   | Album link                  | How the image list is read                                         |
+| ------ | --------------------------- | ------------------------------------------------------------------ |
+| imgbb  | `https://ibb.co/album/<id>` | `data-object` JSON in the album page plus imgbb's `/json` endpoint |
+| Catbox | `https://catbox.moe/c/<id>` | gallery links in the album page, which lists every file at once    |
+
+A bare album ID without a host is read as an imgbb album.
 
 ## Why two parts (`apps/web`, `apps/worker`)?
 
-imgbb album pages don't send an `Access-Control-Allow-Origin` header, so a
-browser can't `fetch()` them directly from another domain (CORS). The actual
-image files on `i.ibb.co`, on the other hand, do send
-`Access-Control-Allow-Origin: *`.
+Album pages on both hosts don't send an `Access-Control-Allow-Origin` header,
+so a browser can't `fetch()` them directly from another domain (CORS). The
+actual image files on `i.ibb.co` and `files.catbox.moe`, on the other hand, do
+send `Access-Control-Allow-Origin: *`.
 
 Thus the two.part architecture:
 
 - **`apps/worker`** - a Cloudflare Worker fetches the album page
-  server-side, parses the per-image `data-object` JSON blobs embedded in the
-  HTML, and also calls imgbb's own `/json` endpoint (the one behind their
-  "Embed codes" tab) to get the complete, unpaginated image list — the album
-  page itself only renders the first ~24-32 images and lazy-loads the rest.
+  server-side and turns it into one JSON format for all hosts. For imgbb it
+  parses the per-image `data-object` JSON blobs embedded in the HTML and also
+  calls imgbb's own `/json` endpoint (the one behind their "Embed codes" tab)
+  to get the complete, unpaginated image list, because the album page itself
+  only renders the first ~24-32 images and lazy-loads the rest. Catbox album
+  pages already contain every file. Each host has its own module
+  (`imgbb.ts`, `catbox.ts`); `scrape.ts` picks one by the link's hostname.
   Exposes it all as a clean JSON API (`GET /api/album?url=...`) that runs for
   free on the Cloudflare free tier.
 - **`apps/web`** - a static React/Vite app (GitHub Pages) that calls the
@@ -47,7 +60,7 @@ What I like about this solution:
 
 ## Privacy
 
-This project does not persist album pages, image files, or user data. The Cloudflare Worker fetches album metadata server-side and returns JSON only; image files are downloaded directly from i.ibb.co by the browser and are not proxied through the worker. Server-side logging is disabled. No analytics or third-party trackers are included by default.
+This project does not persist album pages, image files, or user data. The Cloudflare Worker fetches album metadata server-side and returns JSON only; image files are downloaded directly from i.ibb.co or files.catbox.moe by the browser and are not proxied through the worker. Server-side logging is disabled. No analytics or third-party trackers are included by default.
 For more details, see [PRIVACY](./PRIVACY).
 
 If you enable analytics, error reporting, or other monitoring for your deployment, please update this notice to describe what is collected and how long it is retained.

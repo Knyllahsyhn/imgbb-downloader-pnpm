@@ -2,7 +2,7 @@
   "name": "imgbb-album-downloader",
   "private": true,
   "version": "0.1.0",
-  "description": "Download whole imgbb (ibb.co) albums as a zip, with a web UI.",
+  "description": "Download whole imgbb and Catbox albums as a zip, with a web UI.",
   "packageManager": "pnpm@11.9.0",
   "engines": {
     "node": ">=22.13"

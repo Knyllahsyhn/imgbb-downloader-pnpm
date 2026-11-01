@@ -1,8 +1,8 @@
-import type { ImgbbImage } from "../types";
+import type { AlbumImage } from "../types";
 import { formatBytes } from "../lib/format";
 
 interface Props {
-  image: ImgbbImage;
+  image: AlbumImage;
   position: number;
   selected: boolean;
   onToggle: (id: string) => void;

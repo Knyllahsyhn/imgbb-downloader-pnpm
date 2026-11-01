@@ -9,6 +9,9 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     date: "2026-11-01",
     changes: [
+      "Catbox albums (catbox.moe/c/…) can be downloaded too.",
+      "Renamed to Album Downloader, since it is no longer limited to imgbb.",
+      "Album links also work without https:// in front.",
       "New look in the style of a shipping label, with light and dark mode.",
       "The album link stays in the address bar, so you can share or reload it.",
       "If single images fail, the ZIP is still created and lists the missing files.",

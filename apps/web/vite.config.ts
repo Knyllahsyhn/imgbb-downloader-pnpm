@@ -16,8 +16,9 @@ function contentSecurityPolicy(apiBaseUrl: string | undefined): Plugin {
     "default-src 'self'",
     "script-src 'self'",
     "style-src 'self'",
-    "img-src 'self' https://i.ibb.co data:",
-    `connect-src 'self' https://i.ibb.co ${apiOrigin}`.trim(),
+    // Image hosts: imgbb and Catbox. Both send CORS headers on their files.
+    "img-src 'self' https://i.ibb.co https://files.catbox.moe data:",
+    `connect-src 'self' https://i.ibb.co https://files.catbox.moe ${apiOrigin}`.trim(),
     "manifest-src 'self'",
     "base-uri 'self'",
     "form-action 'self'",

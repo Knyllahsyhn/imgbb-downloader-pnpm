@@ -14,7 +14,7 @@ import {
   safeZipName,
   type DownloadProgress,
 } from "./lib/zip";
-import type { AlbumResult, ImgbbImage } from "./types";
+import { PROVIDER_NAMES, type AlbumImage, type AlbumResult } from "./types";
 
 const ALBUM_PARAM = "album";
 const PRIVACY_URL = "https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/blob/main/PRIVACY.md";
@@ -44,7 +44,7 @@ export default function App() {
   const [downloading, setDownloading] = useState(false);
   const [progress, setProgress] = useState<DownloadProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [failedImages, setFailedImages] = useState<ImgbbImage[]>([]);
+  const [failedImages, setFailedImages] = useState<AlbumImage[]>([]);
   const loadController = useRef<AbortController | null>(null);
   const downloadController = useRef<AbortController | null>(null);
 
@@ -160,10 +160,10 @@ export default function App() {
           <header className="flex items-stretch border-b-[3px] border-ink">
             <div className="flex min-w-0 flex-1 flex-col justify-end gap-3 p-4 sm:p-5">
               <h1 className="label-display text-[clamp(2.25rem,11vw,4.5rem)] break-words">
-                imgbb Album Downloader
+                Album Downloader
               </h1>
               <p className="max-w-md text-sm">
-                Paste an album link, pick your images, download them as a ZIP.
+                Paste an imgbb or Catbox album link, pick your images, download them as a ZIP.
               </p>
             </div>
             <div
@@ -212,7 +212,7 @@ export default function App() {
                       rel="noreferrer"
                       className="underline decoration-2 underline-offset-4 hover:decoration-signal"
                     >
-                      Open on imgbb ↗
+                      Open on {PROVIDER_NAMES[album.provider]} ↗
                     </a>
                   </div>
                 </>
@@ -237,7 +237,8 @@ export default function App() {
                   role="status"
                   className="border-b-2 border-ink bg-signal px-4 py-2 text-sm font-medium text-on-signal sm:px-5"
                 >
-                  imgbb only returned the first {album.images.length} images of this album.
+                  {PROVIDER_NAMES[album.provider]} only returned the first {album.images.length}{" "}
+                  images of this album.
                 </p>
               )}
 
@@ -288,7 +289,7 @@ export default function App() {
               <p className="text-sm text-muted">
                 {loading
                   ? "Loading the album…"
-                  : "Paste an imgbb album link above. Its images show up here, and you choose which ones go into the ZIP."}
+                  : "Paste an imgbb or Catbox album link above. Its images show up here, and you choose which ones go into the ZIP."}
               </p>
             </section>
           )}

@@ -18,7 +18,7 @@ export default function AlbumForm({ loading, initialValue = "", onSubmit }: Prop
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4 sm:p-5">
       <label htmlFor="album-url" className="label-caps text-xs">
-        From <span className="sr-only">imgbb album link</span>
+        From <span className="sr-only">album link</span>
       </label>
       <div className="flex flex-col gap-2 sm:flex-row">
         <input
@@ -30,7 +30,7 @@ export default function AlbumForm({ loading, initialValue = "", onSubmit }: Prop
           spellCheck={false}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="https://ibb.co/album/…"
+          placeholder="ibb.co/album/… or catbox.moe/c/…"
           className="mono-data min-w-0 flex-1 border-2 border-ink bg-label px-3 py-3 text-sm text-ink placeholder:text-muted focus-visible:outline-offset-0"
         />
         <button
