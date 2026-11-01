@@ -1,6 +1,6 @@
 # Privacy Notice
 
-Last updated: 2026-07-02
+Last updated: 2026-11-01
 
 This document explains what data the imgbb Album Downloader collects, processes, or stores when using the Cloudflare Worker and web frontend, and what privacy guarantees are provided by the default project configuration.
 
@@ -24,6 +24,11 @@ If you deploy your own instance of the worker or enable additional monitoring/an
 - Default repository configuration: server-side logging has been disabled in the worker code that was recently committed. The worker does not write request logs, album URLs, image URLs, or image content to long-term storage under this repository's code.
 - Transient processing: the worker may handle data in-memory while generating the JSON response. This data is not persisted by the worker code itself.
 - Platform logs: note that Cloudflare (or any other hosting platform you use) may retain logs independently of the worker code. These logs may include request timestamps, source IPs, and request paths depending on your account and Cloudflare settings. If you self-host, review your account's logging/analytics settings and any retention policies.
+
+## Caching and rate limiting
+
+- Short-lived cache: a successful album lookup (the JSON metadata described above) is kept in Cloudflare's edge cache and in your browser cache for up to 5 minutes, keyed by album ID. It contains no information about the requesting user.
+- Rate limiting: to protect the worker and imgbb from abuse, uncached lookups are limited per client IP address using Cloudflare's rate limiting binding. The IP address is used only as a counter key inside Cloudflare's rate limiter for the current one-minute window; the worker code does not store or log it.
 
 ## Analytics, third parties, and error reporting
 

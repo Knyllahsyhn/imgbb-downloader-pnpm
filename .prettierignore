@@ -2,3 +2,4 @@ node_modules
 dist
 pnpm-lock.yaml
 .wrangler
+apps/worker/worker-configuration.d.ts

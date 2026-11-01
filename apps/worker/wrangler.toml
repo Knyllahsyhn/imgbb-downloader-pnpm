@@ -3,8 +3,19 @@ main = "src/index.ts"
 compatibility_date = "2026-07-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Logging stays off on purpose, see PRIVACY.md.
 [observability]
 enabled = false
+
+# Per-IP limit for uncached album lookups. namespace_id is an arbitrary
+# account-unique integer chosen for this limiter.
+[[ratelimits]]
+name = "ALBUM_RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
 
 [vars]
 ALLOWED_ORIGIN = "https://knyllahsyhn.github.io"
