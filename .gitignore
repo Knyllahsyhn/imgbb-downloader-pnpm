@@ -21,3 +21,7 @@ apps/worker/dist/
 !.vscode/extensions.json
 .idea/
 .editorconfig
+
+# Playwright
+apps/web/test-results/
+apps/web/playwright-report/
