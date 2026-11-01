@@ -4,9 +4,9 @@ If deployments are failing, check [GitHub Status](https://www.githubstatus.com) 
 
 | Component         | Status                                                                                                                                                                                                                          |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CI/Lint/Typecheck | [![CI](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/ci.yml)                                     |
-| Pages Deployment  | [![GH Pages](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-pages.yml)                       |
-| Worker Deployment | [![Cloudflare worker deployment](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/actions/workflows/deploy-worker.yml) |
+| CI/Lint/Typecheck | [![CI](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/ci.yml)                                     |
+| Pages Deployment  | [![GH Pages](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/deploy-pages.yml)                       |
+| Worker Deployment | [![Cloudflare worker deployment](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/Knyllahsyhn/album-downloader-pnpm/actions/workflows/deploy-worker.yml) |
 
 # Album Downloader
 

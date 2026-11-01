@@ -17,7 +17,7 @@ import {
 import { PROVIDER_NAMES, type AlbumImage, type AlbumResult } from "./types";
 
 const ALBUM_PARAM = "album";
-const PRIVACY_URL = "https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/blob/main/PRIVACY.md";
+const PRIVACY_URL = "https://github.com/Knyllahsyhn/album-downloader-pnpm/blob/main/PRIVACY.md";
 const GITHUB_URL = "https://github.com/Knyllahsyhn";
 
 function readAlbumParam(): string {

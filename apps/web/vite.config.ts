@@ -3,7 +3,7 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-const DEFAULT_SITE_URL = "https://knyllahsyhn.github.io/imgbb-downloader-pnpm/";
+const DEFAULT_SITE_URL = "https://knyllahsyhn.github.io/album-downloader-pnpm/";
 
 /**
  * Adds a Content-Security-Policy meta tag to the production build.
