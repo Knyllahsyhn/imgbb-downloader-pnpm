@@ -25,25 +25,26 @@ export default function ImageCard({ image, selected, onToggle }: Props) {
         selected
           ? "border-brand-500 ring-2 ring-brand-500"
           : "border-slate-800 hover:border-slate-600"
-      } bg-slate-900`}
+      } bg-slate-900 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brand-300`}
     >
       <input
         type="checkbox"
-        className="absolute left-2 top-2 z-10 h-5 w-5 accent-brand-500"
+        className="absolute left-2 top-2 z-10 h-5 w-5 accent-brand-500 focus-visible:outline-none"
         checked={selected}
         onChange={() => onToggle(image.id)}
       />
       <div className="aspect-square w-full overflow-hidden bg-slate-800">
         <img
           src={image.thumbUrl}
-          alt={image.title}
+          alt=""
           loading="lazy"
-          className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
+          decoding="async"
+          className="h-full w-full object-cover motion-safe:transition motion-safe:duration-200 motion-safe:group-hover:scale-105"
         />
       </div>
       <div className="flex flex-col gap-0.5 p-2">
         <span className="truncate text-xs font-medium text-slate-200">{image.title}</span>
-        <span className="text-[11px] text-slate-500">
+        <span className="text-[11px] text-slate-400">
           {image.width && image.height ? `${image.width}×${image.height}` : ""}
           {image.sizeBytes ? ` · ${formatBytes(image.sizeBytes)}` : ""}
         </span>
