@@ -9,6 +9,7 @@ import type { AlbumResult, ImgbbImage } from "./types";
 
 const ALBUM_PARAM = "album";
 const PRIVACY_URL = "https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/blob/main/PRIVACY.md";
+const SUPPORT_URL = "https://www.buymeacoffee.com/kex1jmlg";
 
 function readAlbumParam(): string {
   return new URLSearchParams(window.location.search).get(ALBUM_PARAM) ?? "";
@@ -222,6 +223,21 @@ export default function App() {
       </main>
 
       <footer className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 pt-6 text-xs text-slate-400">
+        {/* Served from /public so the visitor's browser makes no request to a third party. */}
+        <a
+          href={SUPPORT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="basis-full rounded-[11px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-300 sm:basis-auto"
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}buymeacoffee.svg`}
+            alt="Help pay my electricity bill on Buy Me a Coffee"
+            width={282}
+            height={40}
+            className="mx-auto h-10 w-auto motion-safe:transition hover:opacity-90"
+          />
+        </a>
         <span className="flex items-center gap-2">
           <BrandingLogo className="h-4 w-4" />
           <span>
