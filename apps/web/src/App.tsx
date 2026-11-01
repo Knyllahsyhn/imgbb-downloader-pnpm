@@ -18,6 +18,7 @@ import type { AlbumResult, ImgbbImage } from "./types";
 
 const ALBUM_PARAM = "album";
 const PRIVACY_URL = "https://github.com/Knyllahsyhn/imgbb-downloader-pnpm/blob/main/PRIVACY.md";
+const GITHUB_URL = "https://github.com/Knyllahsyhn";
 
 function readAlbumParam(): string {
   return new URLSearchParams(window.location.search).get(ALBUM_PARAM) ?? "";
@@ -298,8 +299,17 @@ export default function App() {
         <SupportButton />
         <WhatsNew />
         <p className="flex items-center gap-4 text-xs">
-          <span>
-            Built by <span className="font-bold">KNYL</span>
+          <span className="flex items-center gap-1.5">
+            Built by
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 font-bold underline decoration-2 underline-offset-4"
+            >
+              <BrandingLogo className="h-4 w-4" />
+              KNYL
+            </a>
           </span>
           <a
             href={PRIVACY_URL}
