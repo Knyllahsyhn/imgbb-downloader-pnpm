@@ -14,6 +14,8 @@
     "build:worker": "pnpm --filter worker build",
     "lint": "pnpm --filter web lint",
     "typecheck": "pnpm --filter web typecheck && pnpm --filter worker typecheck",
+    "test": "pnpm --filter web test && pnpm --filter worker test",
+    "test:e2e": "pnpm --filter web test:e2e",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

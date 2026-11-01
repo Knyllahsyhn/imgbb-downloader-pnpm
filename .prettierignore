@@ -3,3 +3,5 @@ dist
 pnpm-lock.yaml
 .wrangler
 apps/worker/worker-configuration.d.ts
+apps/web/test-results
+apps/web/playwright-report

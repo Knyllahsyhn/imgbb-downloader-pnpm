@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -44,5 +45,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss(), contentSecurityPolicy(env.VITE_API_BASE_URL)],
     base: process.env.BASE_PATH ?? "/",
+    test: {
+      include: ["src/**/*.test.ts"],
+    },
   };
 });
